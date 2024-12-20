@@ -1,0 +1,13 @@
+# .gitignore ファイル
+
+# 不要なシステムファイル
+.DS_Store
+
+# データベースファイル
+docker/mysql/data/*
+src/storage/images/*
+
+# その他無視したいファイルやフォルダ
+src/storage/logs/*
+
+

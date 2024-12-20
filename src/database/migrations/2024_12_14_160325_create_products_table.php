@@ -11,7 +11,7 @@ class CreateProductsTable extends Migration
      *
      * @return void
      */
-   // database/migrations/xxxx_xx_xx_xxxxxx_create_products_table.php
+
 public function up()
 {
     Schema::create('products', function (Blueprint $table) {
@@ -19,6 +19,7 @@ public function up()
         $table->string('name');
         $table->integer('price');
         $table->string('image_path');
+        $table->string('description')->default('')->change();
         $table->timestamps();
     });
 }

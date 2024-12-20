@@ -1,45 +1,40 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品一覧ページ</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#">ホーム</a></li>
-                <li><a href="#">商品一覧</a></li>
-                <li><a href="#">お問い合わせ</a></li>
-            </ul>
-        </nav>
-    </header>
+@extends('layouts.app')
 
-    <main>
-        <h1>商品一覧</h1>
+@section('title', '商品一覧')
+
+@section('content')
+    <h1>商品一覧</h1>
+
+    <section class="product-cards">
         <div class="product-list">
-            <div class="product-card">
-                <img src="path_to_image1.jpg" alt="商品1">
-                <div class="product-info">
-                    <h2>商品名1</h2>
-                    <p>価格: ¥1000</p>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="path_to_image2.jpg" alt="商品2">
-                <div class="product-info">
-                    <h2>商品名2</h2>
-                    <p>価格: ¥1500</p>
-                </div>
-            </div>
-            <!-- 他の商品も同様に追加 -->
-        </div>
-    </main>
+            @foreach ($products as $product)
+                <div class="product-card">
+                    
+                    <img src="{{ $product->image_path }}" alt="{{ $product->name }}">
 
-    <footer>
-        <p>&copy; 2024 商品一覧</p>
-    </footer>
-</body>
-</html>
+                    <div class="product-info">
+                        <h2>{{ $product->name }}</h2>
+                        <p>価格: ¥{{ number_format($product->price) }}</p>
+                        <p>{{ $product->description }}</p>
+                    </div>
+
+                    <div class="product-actions">
+                        
+                        <a href="{{ route('product.edit', $product->id) }}" class="btn btn-secondary">編集</a>
+                        <a href="#" class="btn btn-secondary">コピー</a>
+                        <form action="{{ route('product.destroy', $product->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？')">削除</button>
+                        </form>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    
+    <div class="pagination">
+        {{ $products->links() }}
+    </div>
+@endsection
